@@ -54,6 +54,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         db.execSQL(sql_food);
         db.execSQL(sql_menu);
 
+        //菜单信息表
         String sql_caidan = " create table caidan( " +
                 " ID int primary key not null , " +
                 " 名称 text , " +
