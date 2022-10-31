@@ -116,7 +116,7 @@ public class food_Fragment extends Fragment {
 
                     Intent intent_delete = new Intent(getActivity(), delete_change.class);
                     //获取map中的三项数据，并放入intent
-                    intent_delete.putExtra("ID", map_item.get("ID") + " ");
+                    intent_delete.putExtra("id", map_item.get("id") + " ");
                     intent_delete.putExtra("品名", map_item.get("品名") + " ");
                     intent_delete.putExtra("产品类别", map_item.get("产品类别") + " ");
                     intent_delete.putExtra("食品生产许可证号", map_item.get("食品生产许可证号") + " ");
@@ -236,7 +236,7 @@ public class food_Fragment extends Fragment {
                 Map<String, String> map = new HashMap<String, String>();
 
 
-                map.put("ID", cursor_query_byid.getString(cursor_query_byid.getColumnIndex("ID")));
+                map.put("id", cursor_query_byid.getString(cursor_query_byid.getColumnIndex("id")));
                 map.put("品名", cursor_query_byid.getString(cursor_query_byid.getColumnIndex("品名")));
                 map.put("产品类别", cursor_query_byid.getString(cursor_query_byid.getColumnIndex("产品类别")));
                 map.put("食品生产许可证号", cursor_query_byid.getString(cursor_query_byid.getColumnIndex("食品生产许可证号")));
@@ -255,7 +255,7 @@ public class food_Fragment extends Fragment {
             }
             //设置适配器
             SimpleAdapter simpleAdapter = new SimpleAdapter(getActivity(), arrayList_query, R.layout.list_item,
-                    new String[]{"ID", "品名","产品类别","食品生产许可证号","产品标准号","保质期",
+                    new String[]{"id", "品名","产品类别","食品生产许可证号","产品标准号","保质期",
                             "贮存条件", "制造商","地址","产地", "营养成分" ,"净含量","库存"}, new int[]{R.id.iid, R.id.iname, R.id.ileibie,
                             R.id.ilicense, R.id.istandard, R.id.idate, R.id.istore, R.id.imake, R.id.iaddress, R.id.ifrom,
                             R.id.inutri, R.id.icontent, R.id.istock});
@@ -274,7 +274,7 @@ public class food_Fragment extends Fragment {
             while (cursor.moveToNext()) {
                 Map<String, String> map = new HashMap<String, String>();
 
-                map.put("ID", cursor.getString(cursor.getColumnIndex("ID")));
+                map.put("id", cursor.getString(cursor.getColumnIndex("id")));
                 map.put("品名", cursor.getString(cursor.getColumnIndex("品名")));
                 map.put("产品类别", cursor.getString(cursor.getColumnIndex("产品类别")));
                 map.put("食品生产许可证号", cursor.getString(cursor.getColumnIndex("食品生产许可证号")));
@@ -295,7 +295,7 @@ public class food_Fragment extends Fragment {
             }
             //设置适配器
             SimpleAdapter simpleAdapter = new SimpleAdapter(getActivity(), arrayList, R.layout.list_item,
-                    new String[]{"ID", "品名","产品类别","食品生产许可证号","产品标准号","保质期",
+                    new String[]{"id", "品名","产品类别","食品生产许可证号","产品标准号","保质期",
                             "贮存条件", "制造商","地址","产地", "营养成分" ,"净含量","库存"}, new int[]{R.id.iid, R.id.iname, R.id.ileibie,
                     R.id.ilicense, R.id.istandard, R.id.idate, R.id.istore, R.id.imake, R.id.iaddress, R.id.ifrom,
                     R.id.inutri, R.id.icontent, R.id.istock});

@@ -21,7 +21,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //食材信息
         String sql_food = " create table Food( " +
-                 " ID int primary key not null , " +
+                 " id int primary key not null , " +
                  " 品名 text , " +
                  " 产品类别 text , " +
                  " 食品生产许可证号 text , " +
@@ -36,7 +36,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                  " 库存 double) ;";
         //菜谱信息
         String sql_menu = " create table Menu( " +
-                " ID int primary key not null , " +
+                " id int primary key not null , " +
                 " 名称 text , " +
                 " 主料 text , " +
                 " 主料含量 double ," +
@@ -54,17 +54,22 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         db.execSQL(sql_food);
         db.execSQL(sql_menu);
 
-        //菜单信息表
         String sql_caidan = " create table caidan( " +
-                " ID int primary key not null , " +
+                " id int primary key not null , " +
                 " 名称 text , " +
-                " 荤素 text , " +
+                " 主料 text , " +
+                " 主料含量 double ," +
+                " 配料 text , " +
+                " 配料含量 double , " +
+                " 做法步骤 text , " +
                 " 菜系 text , " +
+                " 荤素 text , " +
+                " 可做 char(10) , " +
                 " 价格 double , " +
-                " FOREIGN KEY(名称) REFERENCES Menu(名称) , " +
-                " FOREIGN KEY(荤素) REFERENCES Menu(荤素) , " +
-                " FOREIGN KEY(菜系) REFERENCES Menu(菜系) , " +
-                " FOREIGN KEY(价格) REFERENCES Menu(价格) ) ;" ;
+                " FOREIGN KEY(主料) REFERENCES Food(品名) , " +
+                " FOREIGN KEY(配料) REFERENCES Food(品名) ," +
+                " FOREIGN KEY(主料含量) REFERENCES Food(库存) ," +
+                " FOREIGN KEY(配料含量) REFERENCES Food(库存) );" ;
         db.execSQL(sql_caidan);
 
         //创建成功
@@ -73,11 +78,36 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
 
         //插入信息
-        String sql_insertf1 = "insert into Food(ID,品名,产品类别) values ('001','青菜','素');";
-        String sql_insertm1 = "insert into Menu(ID,名称,主料) values ('001','炒青菜','青菜');";
+        String sql_insertf1 = "insert into Food(id,品名,库存,保质期) values ('001','鸡肉','20','2');";
+        String sql_insertf2 = "insert into Food(id,品名,库存,保质期) values ('002','猪肉','8','1');";
+        String sql_insertf3 = "insert into Food(id,品名,库存,保质期) values ('003','青菜','10','3');";
+        String sql_insertf4 = "insert into Food(id,品名,库存,保质期) values ('004','土豆','10','3');";
+        String sql_insertf5 = "insert into Food(id,品名,库存,保质期) values ('005','豆腐','10','3');";
+        String sql_insertf6 = "insert into Food(id,品名,库存,保质期) values ('006','木耳','10','3');";
+        String sql_insertf7 = "insert into Food(id,品名,库存,保质期) values ('007','辣椒','12','5');";
+        String sql_insertf8 = "insert into Food(id,品名,库存,保质期) values ('008','葱','10','5');";
+        String sql_insertm1 = "insert into Menu(id,名称,主料,配料,主料含量,配料含量) values ('001','辣子鸡','鸡肉','辣椒','3','7');";
+        String sql_insertm2 = "insert into Menu(id,名称,主料,配料,主料含量,配料含量) values ('002','葱爆鸡块','鸡肉','葱','4','6');";
+        String sql_insertm3 = "insert into Menu(id,名称,主料,配料,主料含量,配料含量) values ('003','土豆炖鸡','鸡肉','土豆','5','5');";
+        String sql_insertm4 = "insert into Menu(id,名称,主料,配料,主料含量,配料含量) values ('004','木耳炒猪肉','猪肉','木耳','5','5');";
+        String sql_insertm5 = "insert into Menu(id,名称,主料,配料,主料含量,配料含量) values ('005','辣椒炒肉','猪肉','辣椒','4','6');";
+        String sql_insertm6 = "insert into Menu(id,名称,主料,配料,主料含量,配料含量) values ('006','豆腐炒青菜','青菜','豆腐','6','4');";
+
 
         db.execSQL(sql_insertf1);
+        db.execSQL(sql_insertf2);
+        db.execSQL(sql_insertf3);
+        db.execSQL(sql_insertf4);
+        db.execSQL(sql_insertf5);
+        db.execSQL(sql_insertf6);
+        db.execSQL(sql_insertf7);
+        db.execSQL(sql_insertf8);
         db.execSQL(sql_insertm1);
+        db.execSQL(sql_insertm2);
+        db.execSQL(sql_insertm3);
+        db.execSQL(sql_insertm4);
+        db.execSQL(sql_insertm5);
+        db.execSQL(sql_insertm6);
 
         //用户信息
         String user = "create table user(" +

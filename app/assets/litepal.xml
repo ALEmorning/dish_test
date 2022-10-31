@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+
+    <dbname value="test_db" />
+    <version value="1" />
+    <list>
+
+        <mapping class="com.example.test.database.sqlite.Food" />
+        <mapping class="com.example.test.database.sqlite.Menu" />
+        <mapping class="com.example.test.database.sqlite.Caidan" />
+    </list>
+</litepal>

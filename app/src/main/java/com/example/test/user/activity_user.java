@@ -227,7 +227,7 @@ public class activity_user extends AppCompatActivity {
                         Updata();
                         //查询表中所有数据
                         Cursor cursor1 = db.query("Food",null,null,null,null,null,null);
-                        Cursor cursor2 = db.query("Menu",null,null,null,null,null,null);
+                        Cursor cursor2 = db.query("caidan",null,null,null,null,null,null);
 
                         data2="筛选菜单：\n";
 
@@ -284,9 +284,9 @@ public class activity_user extends AppCompatActivity {
                     //查看所有可点菜单信息
                     case R.id.f_query_caidan:
 
-                        Cursor cursor = db.query("Menu",null,null,null,null,null,null);
+                        Cursor cursor = db.query("caidan",null,null,null,null,null,null);
                         data1="菜单：\n";
-                        data1+="名称        荤素     菜系     营养成分\n";
+                        data1+="名称        荤素   菜系   营养成分\n";
                         Updata();
                         if (cursor.moveToFirst()){
                             do {
@@ -314,7 +314,7 @@ public class activity_user extends AppCompatActivity {
                         Updata();
 
                         Cursor cursor3=db.query("Food",null,null,null,null,null,null);
-                        Cursor cursor4=db.query("Menu",null,null,null,null,null,null);
+                        Cursor cursor4=db.query("caidan",null,null,null,null,null,null);
 
                         double content3; //主料含量
                         double content4; //辅料含量
@@ -395,7 +395,7 @@ public class activity_user extends AppCompatActivity {
     @SuppressLint("Range")
     public void Updata(){
         Cursor cursor1=db.query("Food",null,null,null,null,null,null);
-        Cursor cursor2=db.query("Menu",null,null,null,null,null,null);
+        Cursor cursor2=db.query("caidan",null,null,null,null,null,null);
 
         double content1; //主料含量
         double content2; //配料含量
@@ -423,14 +423,14 @@ public class activity_user extends AppCompatActivity {
                 if(i==2)
                 {
                     values.put("可做","是");
-                    db.update("Menu",values,"名称 = ?",new String[]{data3});
+                    db.update("caidan",values,"名称 = ?",new String[]{data3});
                     values.clear();
                     i=0;
                 }
                 else
                 {
                     values.put("可做","否");
-                    db.update("Menu",values,"名称 = ?",new String[]{data3});
+                    db.update("caidan",values,"名称 = ?",new String[]{data3});
                     values.clear();
                     i=0;
                 }

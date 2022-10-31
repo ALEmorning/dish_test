@@ -72,7 +72,7 @@ public class delete_change_menu extends AppCompatActivity implements View.OnClic
 
 
             //把intent中携带的信息设置成为编辑框的初始内容，方便修改
-            edit_m_id.setText(intent_receive.getStringExtra("ID"));
+            edit_m_id.setText(intent_receive.getStringExtra("id"));
             edit_m_name_d.setText(intent_receive.getStringExtra("名称"));
             edit_m_zhu_d.setText(intent_receive.getStringExtra("主料"));
             edit_m_zhuhan_d.setText(intent_receive.getStringExtra("主料含量"));
@@ -143,7 +143,7 @@ public class delete_change_menu extends AppCompatActivity implements View.OnClic
                         //获取这三项数据，并写入contentvalues中
                         ContentValues values2 = new ContentValues();
 
-                        values2.put("ID", edit_m_id.getText().toString());
+                        values2.put("id", edit_m_id.getText().toString());
                         values2.put("名称", edit_m_name_d.getText().toString());
                         values2.put("主料", edit_m_zhu_d.getText().toString());
                         values2.put("主料含量", edit_m_zhuhan_d.getText().toString());

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,30 +27,33 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.example.test.R;
+import com.example.test.adapter.UniversalAdapter;
 import com.example.test.database.CommonDatabase;
+import com.example.test.database.sqlite.Caidan;
+import com.example.test.database.sqlite.SqliteUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Common_Fragment extends Fragment {
-    String listview_state="";
+    String listview_state = "";
     SQLiteDatabase db;
     private Toolbar toolbar;
     private ListView listView;
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.common_toolbar_menu,menu);
+        inflater.inflate(R.menu.common_toolbar_menu, menu);
 
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case R.id.guanliyuan_backup_add:
-                startActivity(new Intent(getActivity(),add_admin.class));
+                startActivity(new Intent(getActivity(), add_admin.class));
 
                 break;
 
@@ -57,12 +62,11 @@ public class Common_Fragment extends Fragment {
     }
 
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.common_fragment,null);
-        return  view;
+        View view = inflater.inflate(R.layout.common_fragment, null);
+        return view;
     }
 
     @Override
@@ -92,25 +96,19 @@ public class Common_Fragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(listview_state.equals("collect_set"))
-                {
+                if (listview_state.equals("collect_set")) {
 
-                } else if (listview_state.equals("make_menu")){
+                } else if (listview_state.equals("make_menu")) {
 
-                }
+                } else if (listview_state.equals("message")) {
 
-                else if (listview_state.equals("message"))
-                {
-
-                }
-                else if(listview_state.equals("admin"))
-                {
-                    HashMap<String,Object > map_item = (HashMap<String,Object >)listView.getItemAtPosition(position);
+                } else if (listview_state.equals("admin")) {
+                    HashMap<String, Object> map_item = (HashMap<String, Object>) listView.getItemAtPosition(position);
 
                     Intent intent_delete = new Intent(getActivity(), change_account_admin.class);
                     //获取map中的三项数据，并放入intent
-                    intent_delete.putExtra("account",map_item.get("account")+"");
-                    intent_delete.putExtra("password",map_item.get("password")+"");
+                    intent_delete.putExtra("account", map_item.get("account") + "");
+                    intent_delete.putExtra("password", map_item.get("password") + "");
 
 
                     startActivity(intent_delete);
@@ -156,16 +154,32 @@ public class Common_Fragment extends Fragment {
                     /*******生成菜单*******/
                     case R.id.f_make_menu:
                         listview_state = "make_menu";
+                        List<Caidan> caidanList = SqliteUtil.getInstance().generateCaidan(getActivity());
+                        Log.d("TAG", "onClick: " + caidanList);
+                        UniversalAdapter universalAdapter = new UniversalAdapter(getActivity(), R.layout.menu_item, caidanList);
+                        universalAdapter.setInitViewCallBack(new UniversalAdapter.InitViewCallBack() {
+                            @Override
+                            public void initView(int i, View view, Object object) {
+                                Caidan caidan = (Caidan) object;
+                                TextView tvPm = (TextView) view.findViewById(R.id.tv_pm);
+                                TextView tvHs = (TextView) view.findViewById(R.id.tv_hs);
+                                TextView tvCx = (TextView) view.findViewById(R.id.tv_cx);
+                                TextView tvYycf = (TextView) view.findViewById(R.id.tv_yycf);
+                                tvPm.setText(caidan.get名称());
+                                tvHs.setText(caidan.get荤素());
+                                tvCx.setText(caidan.get菜系());
+                                tvYycf.setText(caidan.get配料());
+                            }
+                        });
 
-
-
-
+                        listView.setAdapter(universalAdapter);
+                        break;
 
 
                     /****查看留言*******/
                     case R.id.f_query_liuyan:
                         listview_state = "message";
-                        Cursor cursor_look_message = db.rawQuery("select * from  message inner join user on user.id = message.id ",new String[]{});
+                        Cursor cursor_look_message = db.rawQuery("select * from  message inner join user on user.id = message.id ", new String[]{});
                         if (cursor_look_message.getCount() == 0) {
                             Toast.makeText(getActivity(), "还没有任何留言哦~", Toast.LENGTH_SHORT).show();
                         } else {
@@ -183,7 +197,7 @@ public class Common_Fragment extends Fragment {
 
                             //设置适配器
                             SimpleAdapter simpleAdapter_look_message = new SimpleAdapter(getActivity(), arrayList_look_message, R.layout.list_item_message,
-                                    new String[]{"id","message"}, new int[]{R.id.message_id, R.id.message_content});
+                                    new String[]{"id", "message"}, new int[]{R.id.message_id, R.id.message_content});
                             listView.setAdapter(simpleAdapter_look_message);
 
                         }
@@ -192,18 +206,17 @@ public class Common_Fragment extends Fragment {
 
                     case R.id.look_admin:
                         listview_state = "admin";
-                        Cursor cursor = db.query("administractor",null,null,null,null,null, null);
+                        Cursor cursor = db.query("administractor", null, null, null, null, null, null);
                         ArrayList<Map<String, String>> arrayList_look_admin = new ArrayList<Map<String, String>>();
-                        while(cursor.moveToNext())
-                        {
+                        while (cursor.moveToNext()) {
                             Map<String, String> map = new HashMap<String, String>();
-                            map.put("account",cursor.getString(cursor.getColumnIndex("account")));
-                            map.put("password",cursor.getString(cursor.getColumnIndex("password")));
+                            map.put("account", cursor.getString(cursor.getColumnIndex("account")));
+                            map.put("password", cursor.getString(cursor.getColumnIndex("password")));
                             arrayList_look_admin.add(map);
 
                         }
                         SimpleAdapter simpleAdapter_look_admin = new SimpleAdapter(getActivity(), arrayList_look_admin, R.layout.list_item_account,
-                                new String[]{"account","password"}, new int[]{R.id.account_t, R.id.account_tv});
+                                new String[]{"account", "password"}, new int[]{R.id.account_t, R.id.account_tv});
                         listView.setAdapter(simpleAdapter_look_admin);
                         break;
                     default:
@@ -216,8 +229,9 @@ public class Common_Fragment extends Fragment {
         };
 
 
-         button_look_message.setOnClickListener(listener);
-         button_look_admin.setOnClickListener(listener);
+        button_look_message.setOnClickListener(listener);
+        button_look_admin.setOnClickListener(listener);
+        button_make_caidan.setOnClickListener(listener);
     }
 
 }

@@ -71,7 +71,7 @@ public class delete_change extends AppCompatActivity implements View.OnClickList
 
 
         //把intent中携带的信息设置成为编辑框的初始内容，方便修改
-        edit_ID_d.setText(intent_receive.getStringExtra("ID"));
+        edit_ID_d.setText(intent_receive.getStringExtra("id"));
         edit_pinming_d.setText(intent_receive.getStringExtra("品名"));
         edit_leibie_d.setText(intent_receive.getStringExtra("产品类别"));
         edit_license_d.setText(intent_receive.getStringExtra("食品生产许可证号"));
@@ -139,7 +139,7 @@ public class delete_change extends AppCompatActivity implements View.OnClickList
 
                 //获取这三项数据，并写入contentvalues中
                 ContentValues values2 = new ContentValues();
-                values2.put("ID", edit_ID_d.getText().toString());
+                values2.put("id", edit_ID_d.getText().toString());
                 values2.put("品名", edit_pinming_d.getText().toString());
                 values2.put("产品类别", edit_leibie_d.getText().toString());
                 values2.put("食品生产许可证号", edit_license_d.getText().toString());

@@ -130,7 +130,7 @@ public class menu_Fragment extends Fragment {
 
                             Intent intent_delete = new Intent(getActivity(), delete_change_menu.class);
                             //获取map中的三项数据，并放入intent
-                            intent_delete.putExtra("ID",map_item.get("ID")+" ");
+                            intent_delete.putExtra("id",map_item.get("id")+" ");
                             intent_delete.putExtra("名称",map_item.get("名称")+" ");
                             intent_delete.putExtra("主料",map_item.get("主料")+" ");
                             intent_delete.putExtra("主料含量",map_item.get("主料含量")+" ");
@@ -164,7 +164,7 @@ public class menu_Fragment extends Fragment {
 
                             Map <String,String> map= new HashMap<String,String>();
 
-                            map.put("ID",cursor_menu.getString(cursor_menu.getColumnIndex("ID")));
+                            map.put("id",cursor_menu.getString(cursor_menu.getColumnIndex("id")));
                             map.put("名称",cursor_menu.getString(cursor_menu.getColumnIndex("名称")));
                             map.put("主料",cursor_menu.getString(cursor_menu.getColumnIndex("主料")));
                             map.put("主料含量",cursor_menu.getString(cursor_menu.getColumnIndex("主料含量")));
@@ -181,7 +181,7 @@ public class menu_Fragment extends Fragment {
                         }
                         //设置适配器
                         SimpleAdapter simpleAdapter_menu=new SimpleAdapter(getActivity(),arrayList_menu,R.layout.list__item_menu,
-                                new String[]{"ID","名称","主料","主料含量","配料","配料含量","做法步骤","菜系","荤素","可做","价格"},
+                                new String[]{"id","名称","主料","主料含量","配料","配料含量","做法步骤","菜系","荤素","可做","价格"},
                                 new int[]{R.id.list_m_id,R.id.list_m_name,R.id.list_m_zhuliao,R.id.list_m_zhuhan,R.id.list_m_peiliao, R.id.list_m_peihan,R.id.list_m_make,
                                         R.id.list_m_caixi,R.id.list_m_hunsu, R.id.list_m_kezuo, R.id.list_m_price});
                         listView.setAdapter(simpleAdapter_menu);
@@ -197,7 +197,7 @@ public class menu_Fragment extends Fragment {
                         /****按照菜谱id查询****/
                         if (!e_id.equals("") && e_name.equals("") ) {
 
-                            Cursor cursor_query_byid = db.query("Menu", null, "ID Like ?", new String[]{"%"+e_id+"%"}, null, null, null);
+                            Cursor cursor_query_byid = db.query("Menu", null, "id Like ?", new String[]{"%"+e_id+"%"}, null, null, null);
                             query_byitem(cursor_query_byid,listView);
 
                         }
@@ -213,7 +213,7 @@ public class menu_Fragment extends Fragment {
                         /****按照id+name查询****/
                         else if(!e_id.equals("") && !e_name.equals("") )
                         {
-                            Cursor cursor_query_byid = db.query("Menu", null, "ID Like ? AND 名称 Like ?" , new String[]{"%"+e_id+"%","%"+e_name+"%"}, null, null, null);
+                            Cursor cursor_query_byid = db.query("Menu", null, "id Like ? AND 名称 Like ?" , new String[]{"%"+e_id+"%","%"+e_name+"%"}, null, null, null);
                             query_byitem(cursor_query_byid,listView);
                         }
 
@@ -254,7 +254,7 @@ public class menu_Fragment extends Fragment {
             while (cursor_menu.moveToNext()) {
                 Map<String, String> map = new HashMap<String, String>();
 
-                map.put("ID",cursor_menu.getString(cursor_menu.getColumnIndex("ID")));
+                map.put("id",cursor_menu.getString(cursor_menu.getColumnIndex("id")));
                 map.put("名称",cursor_menu.getString(cursor_menu.getColumnIndex("名称")));
                 map.put("主料",cursor_menu.getString(cursor_menu.getColumnIndex("主料")));
                 map.put("主料含量",cursor_menu.getString(cursor_menu.getColumnIndex("主料含量")));
@@ -270,7 +270,7 @@ public class menu_Fragment extends Fragment {
             }
             //设置适配器
             SimpleAdapter simpleAdapter_menu=new SimpleAdapter(getActivity(),arrayList_query,R.layout.list__item_menu,
-                    new String[]{"ID","名称","主料","主料含量","配料","配料含量","做法步骤","菜系","荤素","可做","价格"},
+                    new String[]{"id","名称","主料","主料含量","配料","配料含量","做法步骤","菜系","荤素","可做","价格"},
                     new int[]{R.id.list_m_id,R.id.list_m_name,R.id.list_m_zhuliao,R.id.list_m_zhuhan,R.id.list_m_peiliao, R.id.list_m_peihan,R.id.list_m_make,
                             R.id.list_m_caixi,R.id.list_m_hunsu, R.id.list_m_kezuo, R.id.list_m_price});
             listView.setAdapter(simpleAdapter_menu);
